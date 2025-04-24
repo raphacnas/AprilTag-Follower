@@ -1,3 +1,11 @@
+## 📁 Code's folder
+
+If you got lost looking for the code, which i honestly don't think happend, just open this link: <br>
+https://github.com/raphacnas/Teleop-Code/tree/master/src/main/java/frc/robot/Robot.java
+
+<br>
+
+---
 ## 🎮 Controller's objective
 
 Before getting into anything about the actual code, we have to clear up what was our idea when it came to the controller. In the team, we were using game console's
