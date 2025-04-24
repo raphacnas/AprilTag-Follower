@@ -57,13 +57,28 @@ public class Robot extends TimedRobot {
     sen = y1 / mag;
     sen2 = y2 / mag2;
 
-    spdbutton = a ? 0.25 : b ? 0.5 : x ? 1.0 : 0.0;
-
     POG = joydelicio.getPOV();
 
-    CalcTrigs();
-    CalcAnalog1();
-    CalcAnalog2();
+    spdbutton = a ? 0.25 : b ? 0.5 : x ? 1.0 : 0.0;
+
+
+    if (mag != 0 && !analog2) {
+      analog1 = true;
+      analog2 = false;
+      CalcAnalog1();
+    } 
+
+    else if (mag2 != 0 && !analog1) {
+      analog1 = false;
+      analog2 = true;
+      CalcAnalog2();
+    } 
+
+    if (analog1 == false && analog2 == false) {
+      Rm = 0;
+      Lm = 0;
+    }
+
     CalcPov();
 
   }
