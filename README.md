@@ -1,6 +1,9 @@
-## 📁 Code's folder
+# 📁 Drivetrain Branch
 
-If you got lost looking for the code, which i honestly don't think happend, just open this link: <br>
+This is the branch that has the drivetrain code. In this README.md i will explain some of the reasons of the code working the way it does and, overall, the code's logic.
+<br><br>
+
+In case you still are looking for the code, which i honestly don't think happend, just open this link: <br>
 https://github.com/raphacnas/Teleop-Code/tree/master/src/main/java/frc/robot/Robot.java
 
 <br>
@@ -27,7 +30,7 @@ which would be responsible for reading the POV and button inputs.
 
 Inside the **robotInit function** — which is a run-once function — I set the second motor on each side to follow the first one, ensuring uniform movement. 
 Due to our robot’s electrical configuration, I inverted the right motor. I also configured a deadband, so that small unintended speeds wouldn't activate the motors.
-
+https://github.com/raphacnas/Teleop-Code/blob/master/README.md
 The **teleopPeriodic function** — which runs in a loop — begins by reading the joystick's X and Y axes, button inputs, trigger values, the POV angle, magnitudes, and
 sine values. Then, I implemented speed control through booleans attached to specific buttons. When pressed, they set the overall speed to 0.25, 0.5, or 1.0, 
 depending on which button was triggered.
