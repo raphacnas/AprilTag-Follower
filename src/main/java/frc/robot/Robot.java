@@ -17,7 +17,7 @@ public class Robot extends TimedRobot {
   private VictorSPX LMotor2 = new VictorSPX(2);
 
   int POG;
-  boolean a, b, x, analog1, analog2, ltrigbool, rtrigbool;
+  boolean a, b, x, analog1, analog2, ltrigbool, rtrigbool, toggleA, toggleB, toggleX, lastA, lastB, lastX;
   double spdbutton = 1, Lm, Rm, Ltrig, Rtrig, mag, mag2, sen, sen2, x1, x2, y1, y2;
 
   @Override
@@ -38,15 +38,17 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
 
-    RMotor1.set(ControlMode.PercentOutput, Rm);
-    LMotor1.set(ControlMode.PercentOutput, Lm);
-
     a = joydelicio.getRawButton(1);
     b = joydelicio.getRawButton(2);
     x = joydelicio.getRawButton(3);
-
-    Ltrig = joydelicio.getRawAxis(3);
+    
+    Ltrig = -joydelicio.getRawAxis(3);
     Rtrig = joydelicio.getRawAxis(2);
+
+    x1 = joydelicio.getRawAxis(0); 
+    x2 = joydelicio.getRawAxis(4);  
+    y1 = joydelicio.getRawAxis(1); 
+    y2 = -joydelicio.getRawAxis(5); 
 
     mag = Math.hypot(x1, y1);
     mag2 = Math.hypot(x2, y2);
@@ -59,39 +61,63 @@ public class Robot extends TimedRobot {
 
     POG = joydelicio.getPOV();
 
-    spdbutton = a ? 0.25 : b ? 0.5 : x ? 1.0 : 0.0;
+    if (a && !lastA) toggleA = !toggleA; 
+    if (b && !lastB) toggleB = !toggleB; 
+    if (x && !lastX) toggleX = !toggleX; 
+
+    lastA = a;
+    lastB = b;
+    lastX = x;
 
 
+    spdbutton = toggleA ? 0.25 : toggleB ? 0.5 : toggleX ? 1.0 : 1.0;
+    
+    // POV
+    if (POG != -1){
+      CalcPov();
+    }
+
+    // TRIGGERS
+    if (Ltrig > 0.04 && !rtrigbool){
+      CalcLTrig();
+    } else if (Rtrig > 0.04 && !ltrigbool){
+      CalcRTrig();
+    }
+
+    // ANALÓGICOS
     if (mag != 0 && !analog2) {
       analog1 = true;
       analog2 = false;
       CalcAnalog1();
-    } 
-
-    else if (mag2 != 0 && !analog1) {
+    } else if (mag2 != 0 && !analog1) {
       analog1 = false;
       analog2 = true;
       CalcAnalog2();
-    } 
-
-    if (analog1 == false && analog2 == false) {
+    } if (analog1 == false && analog2 == false) {
       Rm = 0;
       Lm = 0;
     }
 
-    CalcPov();
+    RMotor1.set(ControlMode.PercentOutput, Rm);
+    LMotor1.set(ControlMode.PercentOutput, Lm);
 
   }
 
-  public void CalcTrigs(){
+  public void CalcLTrig(){
     if (Rtrig < 0.04 && Ltrig >= 0.04) {
       Ltrig *= spdbutton;
       ltrigbool = true;
-    } else if (Ltrig < 0.04 && Rtrig >= 0.04) {
-      Rtrig *= spdbutton;
-      rtrigbool = true;
     } 
   }
+
+
+  public void CalcRTrig(){
+    if (Ltrig < 0.04 && Rtrig >= 0.04) {
+      Rtrig *= spdbutton;
+      rtrigbool = true;
+    }
+  }
+
 
   public void CalcAnalog1(){
     // QUADRANTE 1
@@ -145,27 +171,35 @@ public class Robot extends TimedRobot {
       case 0:
         Rm = 0.40;
         Lm = 0.40;
+        break;
       case 45:
         Rm = 0;
         Lm = 0.40;
+        break;
       case 90:
         Rm = -0.40;
         Lm = 0.40;
+        break;
       case 135:
         Rm = -0.40;
         Lm = 0;
+        break;
       case 180:
         Rm = -0.40;
         Lm = -0.40;
+        break;
       case 225:
         Rm = 0;
         Lm = -0.40;
+        break;
       case 270:
         Rm = -0.40;
         Lm = 0.40;
+        break;
       case 315:
         Rm = 0.40;
         Lm = 0;
+        break;
 
       default:
       case -1:
