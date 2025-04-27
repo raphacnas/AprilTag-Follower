@@ -61,6 +61,7 @@ public class Robot extends TimedRobot {
 
     POG = joydelicio.getPOV();
 
+    // BOTÃO + LÓGICA DE TOGGLE
     if (a && !lastA) toggleA = !toggleA; 
     if (b && !lastB) toggleB = !toggleB; 
     if (x && !lastX) toggleX = !toggleX; 
@@ -69,22 +70,21 @@ public class Robot extends TimedRobot {
     lastB = b;
     lastX = x;
 
-
     spdbutton = toggleA ? 0.25 : toggleB ? 0.5 : toggleX ? 1.0 : 1.0;
     
-    // POV
+    
     if (POG != -1){
       CalcPov();
     }
 
-    // TRIGGERS
+    
     if (Ltrig > 0.04 && !rtrigbool){
       CalcLTrig();
     } else if (Rtrig > 0.04 && !ltrigbool){
       CalcRTrig();
     }
 
-    // ANALÓGICOS
+    
     if (mag != 0 && !analog2) {
       analog1 = true;
       analog2 = false;
@@ -101,45 +101,45 @@ public class Robot extends TimedRobot {
     RMotor1.set(ControlMode.PercentOutput, Rm);
     LMotor1.set(ControlMode.PercentOutput, Lm);
 
-  }
-
-  public void CalcLTrig(){
-    if (Rtrig < 0.04 && Ltrig >= 0.04) {
-      Ltrig *= spdbutton;
-      ltrigbool = true;
-    } 
-  }
-
-
-  public void CalcRTrig(){
-    if (Ltrig < 0.04 && Rtrig >= 0.04) {
-      Rtrig *= spdbutton;
-      rtrigbool = true;
     }
-  }
+
+    public void CalcLTrig(){
+      if (Rtrig < 0.04 && Ltrig >= 0.04) {
+        Ltrig *= spdbutton;
+        ltrigbool = true;
+      } 
+    }
 
 
-  public void CalcAnalog1(){
-    // QUADRANTE 1
-    if (x1 >= 0 && y1 >= 0) {
-      Lm = mag * spdbutton;
-      Rm = (2 * sen - 1) * mag * spdbutton;
+    public void CalcRTrig(){
+      if (Ltrig < 0.04 && Rtrig >= 0.04) {
+        Rtrig *= spdbutton;
+        rtrigbool = true;
+      }
     }
-    // QUADRANTE 2
-    else if (x1 < 0 && y1 >= 0) {
-        Lm = (2 * sen - 1) * mag * spdbutton;
-        Rm = mag * spdbutton;
-    }
-    // QUADRANTE 3
-    else if (x1 >= 0 && y1 < 0) {
-        Lm = -mag * spdbutton;
-        Rm = (2 * sen + 1) * mag * spdbutton;
-    }
-    // QUADRANTE 4
-    else if (x1 < 0 && y1 < 0) {
-        Lm = (2 * sen + 1) * mag * spdbutton;
-        Rm = -mag * spdbutton;
-    }
+
+
+    public void CalcAnalog1(){
+      // QUADRANTE 1
+      if (x1 >= 0 && y1 >= 0) {
+        Lm = mag * spdbutton;
+        Rm = (2 * sen - 1) * mag * spdbutton;
+      }
+      // QUADRANTE 2
+      else if (x1 < 0 && y1 >= 0) {
+          Lm = (2 * sen - 1) * mag * spdbutton;
+          Rm = mag * spdbutton;
+      }
+      // QUADRANTE 3
+      else if (x1 >= 0 && y1 < 0) {
+          Lm = -mag * spdbutton;
+          Rm = (2 * sen + 1) * mag * spdbutton;
+      }
+      // QUADRANTE 4
+      else if (x1 < 0 && y1 < 0) {
+          Lm = (2 * sen + 1) * mag * spdbutton;
+          Rm = -mag * spdbutton;
+      }
   }
 
   public void CalcAnalog2(){
