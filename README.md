@@ -1,4 +1,13 @@
-# 📁 Drivetrain Branch
+# 🖥️ Teleoperated-Code for FRC 
+
+This is a code used especially for a drivetrain robot in FRC, made in my early moments as an robots programmer, 
+and has been made to work along with Hydra #9163' programming team, meaning it could, and probably will, be very different from the usual drivetrain code.
+
+<br>
+
+---
+
+## 📁 Drivetrain Branch
 
 This is the branch that has the drivetrain code. In this README.md i will explain some of the reasons of the code working the way it does and, overall, the code's logic.
 <br><br>
