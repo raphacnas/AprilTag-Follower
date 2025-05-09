@@ -7,9 +7,9 @@ and has been made to work along with Hydra #9163' programming team, meaning it c
 
 ---
 
-## 📁 Drivetrain Branch
+## 📁 Drivetrain README (and Code Location)
 
-This is the branch that has the drivetrain code. In this README.md i will explain some of the reasons of the code working the way it does and, overall, the code's logic.
+This is the one and only branch that has the drivetrain code. In this README.md i will explain some of the reasons of the code working the way it does and, overall, the code's logic.
 <br><br>
 
 In case you still are looking for the code, which i honestly don't think happend, just open this link: <br>
