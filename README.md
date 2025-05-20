@@ -44,22 +44,25 @@ Overall, the code treats the analogs and the POV as trigonometric circles. The a
 2. **Two Important Numbers**  
    - `mag` = how hard you're pushing the joystick (length of the arrow)
    - `sen` = how much "up/down" vs "sideways" you're pushing (`y/mag`)
+  
+3. **Inverted Sticks** <br>
+The Y Axis (`y1` and `y2`) and the left trigger stick are inverted. There is nothing much to say about it, but it was made just so the left trigger could go backwards and the Y Axis in both analogs would be facing upwards.
 
-3. **Motor Speed Rules**  
-   - For forward movements (joystick up):
+4. **Analogs**  
+   - Forward movements (joystick up):
      - One motor always goes full speed
      - Other motor speed = `(2 × sen - 1) × mag`
      - This makes smooth turns
 
-4. **Why `(2×sen - 1)`?**  
-   - When joystick is all the way forward (`sen = 1`):  
-     → `(2×1 - 1) = 1` (both motors same speed = straight)
-   - When sideways (`sen = 0`):  
-     → `(2×0 - 1) = -1` (motors opposite = spin in place)
-   - In-between = smooth turns
+   - Why `(2×sen - 1)`?  
+      - When joystick is all the way forward (`sen = 1`):  
+        → `(2×1 - 1) = 1` (both motors same speed = straight)
+      - When sideways (`sen = 0`):  
+        → `(2×0 - 1) = -1` (motors opposite = spin in place)
+      - In-between = smooth turns
 
-5. **Backwards Moves**  
-   - Same idea, but with `(2×sen + 1)` and negative speeds
+   - Backwards Movements  
+      - Same idea, but with `(2×sen + 1)` and negative speeds
 
-6. **D-Pad (POV)**  
+5. **D-Pad (POV)**  
    - Simple 8-direction control with fixed 40% speed
