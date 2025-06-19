@@ -33,7 +33,7 @@ The right analog, had the same purpose as the left one, but it had to be inverte
 <br>
 
 ---
-## 👨‍💻 Mathematical Code's logic
+## 👨‍💻 Mathematical Code's Logic
 
 Overall, the code treats the analogs and the POV as trigonometric circles. The analogs mainly, not only are treated as those circles but are integrated with other math calculus, like magnitude (pythagorean theorem applied to the X and Y axis), sine, and, if you see it that way, a first order function. Due to all that, the code may seem confusing at first, but, in a very simple way, i would explain it like this: <br>
 
