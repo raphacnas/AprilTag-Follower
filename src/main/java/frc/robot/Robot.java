@@ -58,9 +58,9 @@ public class Robot extends TimedRobot {
     Rtrig = joydelicio.getRawAxis(2);
 
     x1 = joydelicio.getRawAxis(0); 
-    x2 = joydelicio.getRawAxis(4);  
+    x2 = joydelicio.getRawAxis(2);  
     y1 = -joydelicio.getRawAxis(1); 
-    y2 = joydelicio.getRawAxis(5); 
+    y2 = joydelicio.getRawAxis(3); 
 
     mag = Math.hypot(x1, y1);
     mag2 = Math.hypot(x2, y2);
@@ -108,7 +108,7 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
 
-    CalcFollower();
+    TagFollower();
 
     RMotor1.set(ControlMode.PercentOutput, Rm);
     LMotor1.set(ControlMode.PercentOutput, Lm);
@@ -116,30 +116,33 @@ public class Robot extends TimedRobot {
     Smartdashboard();
 }
 
-  public void CalcFollower() {
+  public void TagFollower() {
     tx = limelight.getEntry("tx").getDouble(0.0);
     ta = limelight.getEntry("ta").getDouble(0.0);
-    tv = limelight.getEntry("tv").getDouble(0.0); 
-  
-    if (tv < 1.0) {
-      Lm = 0;
-      Rm = 0;
-      return;
-    }
-  
+    tv = limelight.getEntry("tv").getDouble(0.0);
+
     // Ajustes finos
-    double rot_percent = 0.02;     
-    double fwd_percent = 0.1;      
-    double targetArea = 5.0;  
-  
-    double rot = rot_percent * tx; 
-    double forward = fwd_percent * (targetArea - ta);
-  
-    forward = Math.max(-0.6, Math.min(forward, 0.6));
-    rot = Math.max(-0.4, Math.min(rot, 0.4));
-  
-    Lm = -(forward + rot);
-    Rm = -(forward - rot);
+    double rot_percent = 0.01;     
+    double fwd_percent = 0.2;      
+    double targetArea = 5;  
+
+    if (tv == 0) { 
+
+      Rm = 0;
+      Lm = 0; 
+
+    } else {
+
+      double rot = rot_percent * tx; 
+      double forward = fwd_percent * (targetArea - ta);
+    
+      forward = Math.max(-0.6, Math.min(forward, 0.6));
+      rot = Math.max(-0.4, Math.min(rot, 0.4));
+    
+      Lm = -(forward - rot);
+      Rm = -(forward + rot);
+
+    }
   }
 
   public void CalcButton(){
