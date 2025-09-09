@@ -15,10 +15,10 @@ public class Robot extends TimedRobot {
 
   private Joystick joydelicio = new Joystick(0);
 
-  private VictorSPX RMotor1 = new VictorSPX(2);
-  private VictorSPX RMotor2 = new VictorSPX(3);
-  private VictorSPX LMotor1 = new VictorSPX(1);
-  private VictorSPX LMotor2 = new VictorSPX(2);
+  private VictorSPX RMotor1 = new VictorSPX(1);
+  private VictorSPX RMotor2 = new VictorSPX(2);
+  private VictorSPX LMotor1 = new VictorSPX(4);
+  private VictorSPX LMotor2 = new VictorSPX(3);
 
   private NetworkTable limelight = NetworkTableInstance.getDefault().getTable("limelight");
 
@@ -31,10 +31,10 @@ public class Robot extends TimedRobot {
     RMotor2.follow(RMotor1);
     LMotor2.follow(LMotor1);
 
-    RMotor1.setInverted(true);
-    LMotor1.setInverted(true);
+    RMotor1.setInverted(false);
     RMotor2.setInverted(false);
-    LMotor2.setInverted(false);
+    LMotor1.setInverted(true);
+    LMotor2.setInverted(true);
 
     RMotor1.configNeutralDeadband(0.04);
     LMotor1.configNeutralDeadband(0.04);
@@ -59,8 +59,8 @@ public class Robot extends TimedRobot {
 
     x1 = joydelicio.getRawAxis(0); 
     x2 = joydelicio.getRawAxis(4);  
-    y1 = joydelicio.getRawAxis(1); 
-    y2 = -joydelicio.getRawAxis(5); 
+    y1 = -joydelicio.getRawAxis(1); 
+    y2 = joydelicio.getRawAxis(5); 
 
     mag = Math.hypot(x1, y1);
     mag2 = Math.hypot(x2, y2);
@@ -68,35 +68,34 @@ public class Robot extends TimedRobot {
     mag = Math.max(-1, Math.min(mag, 1));
     mag2  = Math.max(-1, Math.min(mag2, 1));
 
-    sen = y1 / mag;
-    sen2 = y2 / mag2;
+    sen = (mag != 0) ? y1 / mag : 0;
+    sen2 = (mag2 != 0) ? y2 / mag2 : 0;
 
     POG = joydelicio.getPOV();
     
     CalcButton();    
     
-    if (POG != -1){
-      CalcPov();
-    } else {
+    CalcPov();
 
-      if (Ltrig > 0.04 && !rtrigbool){
-        CalcLTrig();
-      } else if (Rtrig > 0.04 && !ltrigbool){
-        CalcRTrig();
-      } else {
+    if (Ltrig > 0.04 && rtrigbool == false){
+      CalcLTrig();
+    } else if (Rtrig > 0.04 && ltrigbool == false){
+      CalcRTrig();
+    } 
 
-        if (mag != 0 && !analog2) {
-          analog1 = true;
-          analog2 = false;
-          CalcAnalog1();
-    
-        } else if (mag2 != 0 && !analog1) {
-          analog1 = false;
-          analog2 = true;
-          CalcAnalog2();
-    
-        } 
-      }
+    else {
+
+      if (mag != 0 && !analog2) {
+        analog1 = true;
+        analog2 = false;
+        CalcAnalog1();
+  
+      } else if (mag2 != 0 && !analog1) {
+        analog1 = false;
+        analog2 = true;
+        CalcAnalog2();
+  
+      } 
     }
 
     RMotor1.set(ControlMode.PercentOutput, Rm);
@@ -110,7 +109,7 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
 
     CalcFollower();
-    
+
     RMotor1.set(ControlMode.PercentOutput, Rm);
     LMotor1.set(ControlMode.PercentOutput, Lm);
 
@@ -139,8 +138,8 @@ public class Robot extends TimedRobot {
     forward = Math.max(-0.6, Math.min(forward, 0.6));
     rot = Math.max(-0.4, Math.min(rot, 0.4));
   
-    Lm = forward + rot;
-    Rm = forward - rot;
+    Lm = -(forward + rot);
+    Rm = -(forward - rot);
   }
 
   public void CalcButton(){
@@ -261,6 +260,9 @@ public class Robot extends TimedRobot {
         Rm = 0.40;
         Lm = 0;
         break;
+      case -1:
+        Rm = 0;
+        Lm = 0;
     }
   }
 
