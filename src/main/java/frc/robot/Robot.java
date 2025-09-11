@@ -54,13 +54,13 @@ public class Robot extends TimedRobot {
     b = joydelicio.getRawButton(2);
     x = joydelicio.getRawButton(4);
     
-    Ltrig = joydelicio.getRawAxis(3);
-    Rtrig = joydelicio.getRawAxis(2);
+    Ltrig = joydelicio.getRawAxis(2);
+    Rtrig = joydelicio.getRawAxis(3);
 
     x1 = joydelicio.getRawAxis(0); 
-    x2 = joydelicio.getRawAxis(2);  
+    x2 = joydelicio.getRawAxis(4);  
     y1 = -joydelicio.getRawAxis(1); 
-    y2 = joydelicio.getRawAxis(3); 
+    y2 = joydelicio.getRawAxis(5); 
 
     mag = Math.hypot(x1, y1);
     mag2 = Math.hypot(x2, y2);
@@ -128,8 +128,8 @@ public class Robot extends TimedRobot {
 
     if (tv == 0) { 
 
-      Rm = 0;
-      Lm = 0; 
+      Rm = 0.25;
+      Lm = -0.28; 
 
     } else {
 
@@ -256,8 +256,8 @@ public class Robot extends TimedRobot {
         Lm = -0.40;
         break;
       case 270:
-        Rm = -0.40;
-        Lm = 0.40;
+        Rm = 0.40;
+        Lm = -0.40;
         break;
       case 315:
         Rm = 0.40;
